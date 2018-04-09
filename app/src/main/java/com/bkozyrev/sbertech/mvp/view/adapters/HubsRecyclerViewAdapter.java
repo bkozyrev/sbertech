@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bkozyrev.sbertech.R;
+import com.bkozyrev.sbertech.mvp.model.entities.Category;
 import com.bkozyrev.sbertech.mvp.model.entities.RssItem;
 
 import java.util.ArrayList;
 
-public class HubsRecyclerViewAdapter extends RecyclerView.Adapter<HubsRecyclerViewAdapter.HubsViewHolder> {
+public class HubsRecyclerViewAdapter extends
+        RecyclerView.Adapter<HubsRecyclerViewAdapter.HubsViewHolder> {
 
     private ArrayList<RssItem> items;
 
@@ -47,6 +49,7 @@ public class HubsRecyclerViewAdapter extends RecyclerView.Adapter<HubsRecyclerVi
         private AppCompatTextView textViewDate;
         private AppCompatTextView textViewCreator;
         private AppCompatTextView textViewTitle;
+        private AppCompatTextView textViewCategories;
 
         public HubsViewHolder(View itemView) {
             super(itemView);
@@ -54,12 +57,19 @@ public class HubsRecyclerViewAdapter extends RecyclerView.Adapter<HubsRecyclerVi
             textViewDate = itemView.findViewById(R.id.textViewDate);
             textViewCreator = itemView.findViewById(R.id.textViewCreator);
             textViewTitle = itemView.findViewById(R.id.textViewTitle);
+            textViewCategories = itemView.findViewById(R.id.textViewCategories);
         }
 
         public void bind(RssItem item) {
             textViewDate.setText(item.getPubDate());
             textViewCreator.setText(item.getCreator());
             textViewTitle.setText(item.getTitle());
+            StringBuilder builder = new StringBuilder();
+            for (Category category: item.getCategories()) {
+                builder.append(category.getCategory());
+                builder.append(" ");
+            }
+            textViewCategories.setText(builder.toString());
         }
     }
 }

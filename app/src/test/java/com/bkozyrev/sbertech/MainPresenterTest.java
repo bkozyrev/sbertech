@@ -9,16 +9,28 @@ import com.bkozyrev.sbertech.mvp.presenter.MainPresenter;
 import com.bkozyrev.sbertech.mvp.view.MainMvpView;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.runners.JUnit4;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
+import org.mockito.stubbing.Answer;
 
 import java.util.ArrayList;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 public class MainPresenterTest {
+
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
 
     @Mock
     private MainModel mainModel;
@@ -27,7 +39,7 @@ public class MainPresenterTest {
     private MainMvpView mainMvpView;
 
     @Captor
-    ArgumentCaptor<GetRssCallback> argumentCaptor;
+    private ArgumentCaptor<GetRssCallback> argumentCaptor;
 
     private MainPresenter mainPresenter;
 
@@ -40,7 +52,10 @@ public class MainPresenterTest {
         mainModel = Mockito.mock(MainModel.class);
         mainMvpView = Mockito.mock(MainMvpView.class);
 
-        //Mockito.when(mainModel.getRss(getRssCallback)).thenAnswer();
+        Mockito.doAnswer((Answer<Object>) invocation -> {
+            ((GetRssCallback) invocation.getArguments()[0]).onRssLoaded(expectedRss);
+            return null;
+        }).when(mainModel).getRss(Mockito.any());
 
         mainPresenter = new MainPresenter(mainModel);
         mainPresenter.attachView(mainMvpView);
@@ -61,6 +76,10 @@ public class MainPresenterTest {
 
     @Test
     public void shouldLoadRss() {
-        Mockito.verify(mainModel).getRss(argumentCaptor.capture());
+        mainPresenter.loadRss();
+        verify(mainMvpView, times(1)).showLoading();
+        verify(mainModel).getRss(argumentCaptor.capture());
+        verify(mainMvpView, times(1)).hideLoading();
+        verify(mainMvpView, times(1)).showRss(expectedRss);
     }
 }

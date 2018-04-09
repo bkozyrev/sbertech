@@ -41,6 +41,12 @@ public class MainActivity extends BaseActivity<MainMvpView, MainPresenter> imple
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mainPresenter.detachView();
+    }
+
+    @Override
     public MainPresenter getPresenter() {
         return mainPresenter;
     }
