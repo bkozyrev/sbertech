@@ -15,15 +15,17 @@ public class MainPresenter extends BasePresenter<MainMvpView> {
     }
 
     public void loadRss() {
+        getMvpView().showLoading();
         mainModel.setCallback(new GetRssCallback() {
             @Override
             public void onRssLoaded(Rss rss) {
                 getMvpView().showRss(rss);
+                getMvpView().hideLoading();
             }
 
             @Override
             public void onRssFailed() {
-
+                getMvpView().hideLoading();
             }
         });
         mainModel.getRss();

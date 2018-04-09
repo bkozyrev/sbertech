@@ -6,4 +6,8 @@ import com.bkozyrev.sbertech.mvp.model.entities.Rss;
 public interface MainMvpView extends MvpView {
 
     void showRss(Rss rss);
+
+    void showLoading();
+
+    void hideLoading();
 }

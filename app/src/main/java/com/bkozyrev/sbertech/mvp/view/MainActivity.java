@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.bkozyrev.sbertech.R;
 import com.bkozyrev.sbertech.mvp.base.view.BaseActivity;
@@ -19,6 +21,7 @@ public class MainActivity extends BaseActivity<MainMvpView, MainPresenter> imple
     private RecyclerView recyclerViewHubs;
     private HubsRecyclerViewAdapter adapter;
     private Toolbar toolbar;
+    private ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,9 @@ public class MainActivity extends BaseActivity<MainMvpView, MainPresenter> imple
         recyclerViewHubs.setAdapter(adapter = new HubsRecyclerViewAdapter());
 
         toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(getString(R.string.app_name));
+
+        progressBar = findViewById(R.id.progressBar);
 
         mainPresenter = new MainPresenter(new MainModelImpl());
     }
@@ -53,6 +59,20 @@ public class MainActivity extends BaseActivity<MainMvpView, MainPresenter> imple
     public void showRss(Rss rss) {
         runOnUiThread(() -> {
             adapter.setItems(rss.getChannel().getRssItems());
+        });
+    }
+
+    @Override
+    public void showLoading() {
+        runOnUiThread(() -> {
+            progressBar.setVisibility(View.VISIBLE);
+        });
+    }
+
+    @Override
+    public void hideLoading() {
+        runOnUiThread(() -> {
+            progressBar.setVisibility(View.GONE);
         });
     }
 }

@@ -29,4 +29,8 @@ public class Channel {
     public ArrayList<RssItem> getRssItems() {
         return rssItems;
     }
+
+    public void setRssItems(ArrayList<RssItem> rssItems) {
+        this.rssItems = rssItems;
+    }
 }

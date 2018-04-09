@@ -4,7 +4,5 @@ import com.bkozyrev.sbertech.interfaces.GetRssCallback;
 
 public interface MainModel {
 
-    void setCallback(GetRssCallback callback);
-
-    void getRss();
+    void getRss(GetRssCallback callback);
 }

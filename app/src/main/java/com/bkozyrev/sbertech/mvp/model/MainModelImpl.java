@@ -21,28 +21,22 @@ import java.util.concurrent.Executors;
 public class MainModelImpl implements MainModel {
 
     private ExecutorService executorService;
-    private GetRssCallback callback;
 
     public MainModelImpl() {
         executorService = Executors.newSingleThreadExecutor();
     }
 
     @Override
-    public void setCallback(GetRssCallback callback) {
-        this.callback = callback;
-    }
-
-    @Override
-    public void getRss() {
+    public void getRss(GetRssCallback callback) {
         if (callback != null) {
             executorService.execute(() -> {
-                Rss rss = requestRss();
+                Rss rss = requestRss(callback);
                 callback.onRssLoaded(rss);
             });
         }
     }
 
-    private Rss requestRss() {
+    private Rss requestRss(GetRssCallback callback) {
         HttpURLConnection connection = null;
         InputStreamReader inputStream = null;
         BufferedReader reader = null;

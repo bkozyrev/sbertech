@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".mvp.view.MainActivity">
 
     <LinearLayout
@@ -20,15 +21,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/toolbar"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+                android:elevation="4dp"
+                tools:title="@string/app_name"/>
 
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/recyclerViewHubs"/>
+            android:id="@+id/recyclerViewHubs"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

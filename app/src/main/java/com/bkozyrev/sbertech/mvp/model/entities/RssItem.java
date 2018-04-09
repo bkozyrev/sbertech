@@ -9,20 +9,27 @@ import org.simpleframework.xml.Root;
 @Root(name = "item", strict = false)
 public class RssItem implements Parcelable {
 
-    @Element(name = "title")
+    @Element(name = "title", required = false)
     private String title;
 
-    @Element(name = "description")
+    @Element(name = "description", required = false)
     private String description;
 
-    @Element(name = "link")
+    @Element(name = "link", required = false)
     private String link;
 
-    @Element(name = "pubDate")
+    @Element(name = "pubDate", required = false)
     private String pubDate;
 
-    @Element(name = "dc:creator")
+    @Element(name = "dc:creator", required = false)
     private String creator;
+
+    public RssItem() {
+    }
+
+    public RssItem(String title) {
+        this.title = title;
+    }
 
     protected RssItem(Parcel in) {
         title = in.readString();
