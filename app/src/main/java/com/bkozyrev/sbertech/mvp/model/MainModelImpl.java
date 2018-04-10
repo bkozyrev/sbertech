@@ -1,7 +1,5 @@
 package com.bkozyrev.sbertech.mvp.model;
 
-import android.util.Log;
-
 import com.bkozyrev.sbertech.interfaces.GetRssCallback;
 import com.bkozyrev.sbertech.mvp.model.entities.Rss;
 
@@ -42,7 +40,6 @@ public class MainModelImpl implements MainModel {
         BufferedReader reader = null;
         StringBuilder message = new StringBuilder();
         Rss rss = null;
-        int statusCode = 0;
 
         try {
             URL url = new URL("https://habrahabr.ru/rss/hubs/all/");
@@ -50,8 +47,6 @@ public class MainModelImpl implements MainModel {
             connection.setRequestMethod("GET");
             connection.setDoOutput(true);
             connection.connect();
-
-            statusCode = connection.getResponseCode();
 
             inputStream = new InputStreamReader(connection.getInputStream());
             reader = new BufferedReader(inputStream);
@@ -73,9 +68,6 @@ public class MainModelImpl implements MainModel {
                 callback.onRssFailed();
             }
         }
-
-        Log.d(MainModelImpl.class.getSimpleName(), "status: " + statusCode);
-        Log.d(MainModelImpl.class.getSimpleName(), message.toString());
 
         Serializer serializer = new Persister();
         Reader stringReader = new StringReader(message.toString());
